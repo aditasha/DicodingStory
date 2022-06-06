@@ -21,11 +21,11 @@
 <br />
 <div align="center">
   <a href="https://github.com/aditasha/dicoding-story">
-    <img src="resources/icon.svg" alt="Logo" width=30% height=30%>
+    <img src="resources/image_dicoding.webp" alt="Logo" width=40% height=40%>
   </a>
 
   <p align="center">
-    Github User App features an application where we can find any Github user information provided by Github Api
+    Dicoding Story is an app which features an image filled timeline with description, a map fragment to view the location of uploaded stories and upload capability to add images to the timeline
     <br /><br />
     <a href="https://github.com/aditasha/dicoding-story/issues">Report Bug</a>
     ·
@@ -39,12 +39,12 @@
 
 <div align="center">
   <a href="https://github.com/aditasha/dicoding-story" margin=250px>
-      <img src="resources/GithubUser.gif" alt="Demo" width=50% height=50%>
+      <img src="resources/DicodingStory.gif" alt="Demo" width=50% height=50%>
   </a>
 </div>
 <br />
 
-This project was created using Kotlin, utilizing RecylerView, Retrofit and SearchView to show, collect and search data, ViewPager 2 to navigate between followers/following tab, MVVM Architecture, Room to store favorite user and Data Store Preferences to store themes.
+This project was created using Kotlin, utilizing RecylerView, Paging 3 and Retrofit to show and collect data, Encrypted Shared Preferences to store credential tokens, Shared Element and Motion Animation for animation, Google Maps Api and Activity to show map's fragment and CameraX to capture image.
 
 
 
@@ -56,11 +56,13 @@ This project was created using Kotlin, utilizing RecylerView, Retrofit and Searc
 * [RecyclerView](https://developer.android.com/jetpack/androidx/releases/recyclerview)
 * [Retrofit](https://square.github.io/retrofit/)
 * [Glide](https://github.com/bumptech/glide)
-* [SearchView](https://developer.android.com/reference/android/widget/SearchView)
-* [ViewPager2](https://developer.android.com/jetpack/androidx/releases/viewpager2)
 * MVVM Architecture
 * [Room](https://developer.android.com/jetpack/androidx/releases/room)
-* [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+* [Encrypted Shared Preferernces](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences)
+* [Shared Element]
+* [Motion Animation](https://developer.android.com/training/constraint-layout/motionlayout)
+* [Google Maps SDK](https://developers.google.com/maps/documentation/android-sdk/start)
+* [CameraX](https://developer.android.com/jetpack/androidx/releases/camera)
 
 <!-- CONTACT -->
 ## Contact
