@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../../../../layout/custom_preview.xml" value="0.31296296296296294" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/back_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/camera_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/edit_text_bg.xml" value="0.137" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/email_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/flip_camera_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/image_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/language_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/location_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/lock_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/logout_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/person_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/drawable/send_icon.xml" value="0.2265" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout-land/activity_detail.xml" value="0.2" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout-v26/activity_detail.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout-v26/activity_maps.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout-w936dp/image_banner_widget.xml" value="0.205859375" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout-w936dp/widget_item.xml" value="0.205859375" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_camera.xml" value="0.264" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_detail.xml" value="0.264" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_home.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_maps.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_register.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/activity_upload.xml" value="0.264" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/app_bar_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/email_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/loading_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/marker_image.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/name_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/password_layout.xml" value="0.264" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/story_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/widget_banner.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/layout/widget_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/menu/app_bar_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/menu/language_only.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/menu/top_app_bar.xml" value="0.264" />
+        <entry key="..\:/Bangkit/AndroidStudioProjects/AndroidIntermediate/DicodingStory/app/src/main/res/xml/file_paths.xml" value="0.27447916666666666" />
+        <entry key="app/src/main/res/drawable/edit_text_bg.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/email_at.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/email_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/lock_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/person_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.20234375" />
+        <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.242578125" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/credentials_view.xml" value="0.4" />
+        <entry key="app/src/main/res/layout/email_layout.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/login_credential.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/name_layout.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/password_layout.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/story_layout.xml" value="0.4" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

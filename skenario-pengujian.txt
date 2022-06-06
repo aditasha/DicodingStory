@@ -1,0 +1,432 @@
+/// Integration ///
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+class HomeActivityTest {
+    private val mockWebServer = MockWebServer()
+
+    @Before
+    fun setUp() {
+        mockWebServer.start(8080)
+        ApiConfig.base_url = BuildConfig.MOCK_URL
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+    }
+
+    // English language only
+    @Test
+    fun getStory_Success() {
+        val userPref = UserPreference(ApplicationProvider.getApplicationContext())
+        userPref.wipeCred()
+        userPref.setCred(DataDummy.generateDummyLoginResponse().loginResult)
+        ActivityScenario.launch(HomeActivity::class.java)
+
+        val mockStory = MockResponse()
+            .setResponseCode(200)
+            .setBody(JsonConverter.readStringFromFile("success_response.json"))
+        mockWebServer.enqueue(mockStory)
+        mockWebServer.enqueue(mockStory)
+        mockWebServer.enqueue(mockStory)
+
+        onView(withId(R.id.storyRecycler))
+            .check(matches(isDisplayed()))
+
+        onView(withText("Welcome, Arif Faizin"))
+            .check(matches(isDisplayed()))
+
+        onView(withText("By Reisalin"))
+            .check(matches(isDisplayed()))
+
+        onView(withText("By Aufa"))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.storyRecycler))
+            .perform(
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                    3
+                )
+            )
+
+        onView(withText("By Dimas"))
+            .check(matches(isDisplayed()))
+
+        userPref.wipeCred()
+    }
+}
+
+/// Unit Test Repository ///
+@ExperimentalCoroutinesApi
+class StoryRepositoryTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+    private lateinit var storyRepository: StoryRepository
+
+    @Mock
+    private lateinit var storyDatabase: StoryDatabase
+
+    @Mock
+    private lateinit var storyDao: StoryDao
+
+    @Mock
+    private lateinit var apiService: ApiService
+    private lateinit var fakeDao: StoryDao
+    private lateinit var dummyStory: List<StoryEntity>
+    private lateinit var file: RequestBody
+
+    @Before
+    fun setUp() {
+        apiService = Mockito.mock(ApiService::class.java)
+        storyDatabase = Mockito.mock(StoryDatabase::class.java)
+        storyRepository = StoryRepository(storyDatabase, apiService)
+        storyDao = Mockito.mock(StoryDao::class.java)
+        fakeDao = FakeDao()
+
+        dummyStory = DataDummy.generateDummyStoryEntity()
+
+        file = File.createTempFile("abc", "def").asRequestBody("image/jpeg".toMediaTypeOrNull())
+
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+    }
+
+    @Test
+    fun `when register Should Not Fail`() = mainCoroutineRule.runBlockingTest {
+        val expected = DataDummy.generateDummyGeneralResponse()
+
+        `when`(apiService.register(Register("Arif Faizin", "123@Gmail.com", "123456"))).thenReturn(
+            expected
+        )
+
+        val actual = storyRepository.register("Arif Faizin", "123@Gmail.com", "123456")
+            .getSecondOrAwaitValue()
+
+        Mockito.verify(apiService).register(Register("Arif Faizin", "123@Gmail.com", "123456"))
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(expected.message, (actual as Result.Success).data.message)
+    }
+
+    @Test
+    fun `when register Should Fail Emit Error`() = mainCoroutineRule.runBlockingTest {
+        `when`(apiService.register(Register("Arif Faizin", "", ""))).thenThrow()
+
+        val actual = storyRepository.register("Arif Faizin", "", "").getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Error)
+    }
+
+    @Test
+    fun `when Login Should Not Fail`() = mainCoroutineRule.runBlockingTest {
+        val expected = DataDummy.generateDummyLoginResponse()
+
+        `when`(apiService.login(Login("123@Gmail.com", "123456"))).thenReturn(expected)
+
+        val actual = storyRepository.login("123@Gmail.com", "123456").getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(expected.loginResult.token, (actual as Result.Success).data.token)
+    }
+
+    @Test
+    fun `when Login Should Fail Emit Error`() = mainCoroutineRule.runBlockingTest {
+        `when`(apiService.login(Login("123@Gmail.com", "654321"))).thenThrow()
+
+        val actual = storyRepository.login("123@Gmail.com", "654321").getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Error)
+    }
+
+    @Test
+    fun `when getStory Should Get Paging Correctly`() = mainCoroutineRule.runBlockingTest {
+        fakeDao.insertStory(dummyStory)
+        `when`(storyDatabase.storyDao()).thenReturn(fakeDao)
+        `when`(storyDao.getAllStory()).thenReturn(fakeDao.getAllStory())
+
+        val snapshot = PagedTestDataSources.snapshot(dummyStory)
+        var expected = StoryEntity("", "", "", "", null, "", null)
+        snapshot.map { expected = it }
+
+        val actualStory: PagingData<StoryEntity> =
+            storyRepository.getStories("token").getOrAwaitValue()
+        var actual = StoryEntity("", "", "", "", null, "", null)
+        actualStory.map { actual = it }
+
+        Assert.assertNotNull(actual)
+        Assert.assertEquals(expected.id, actual.id)
+    }
+
+    @Test
+    fun `when getMapStories Should Get Story Correctly`() = mainCoroutineRule.runBlockingTest {
+        fakeDao.insertStory(dummyStory)
+        val dummy = DataDummy.generateDummyStoryResponse()
+        `when`(storyDatabase.storyDao()).thenReturn(fakeDao)
+        `when`(storyDao.getMapStory()).thenReturn(fakeDao.getMapStory())
+        `when`(apiService.stories("token", 1, 15, 1)).thenReturn(dummy)
+
+
+        val actual = storyRepository.getMapStories("token").getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Error)
+    }
+
+    @Test
+    fun `when GetUpload Should Not Null`() = mainCoroutineRule.runBlockingTest {
+        val expected = DataDummy.generateDummyGeneralResponse()
+
+        val desc = "desc".toRequestBody("text/plain".toMediaType())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            "abcdef",
+            file
+        )
+
+        `when`(apiService.upload("token", desc, imageMultipart)).thenReturn(expected)
+
+        val actual = storyRepository.upload("token", desc, imageMultipart).getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+    }
+
+    @Test
+    fun `when GetUpload Fail Emit Error`() = mainCoroutineRule.runBlockingTest {
+        val desc = "desc".toRequestBody("text/plain".toMediaType())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            "abcdef",
+            file
+        )
+
+        `when`(apiService.upload("token", desc, imageMultipart)).thenThrow()
+
+        val actual = storyRepository.upload("token", desc, imageMultipart).getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Error)
+    }
+
+    @Test
+    fun `when deleteData Should Clear Database`() = mainCoroutineRule.runBlockingTest {
+        fakeDao.insertStory(dummyStory)
+        val expected = Result.Success(true)
+
+        `when`(storyDatabase.storyDao()).thenReturn(fakeDao)
+        `when`(storyDao.deleteAll()).thenReturn(Unit)
+
+        val actual = storyRepository.deleteData().getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(expected.data, (actual as Result.Success).data)
+    }
+
+    @Test
+    fun `when deleteData Fail Emit Error`() = mainCoroutineRule.runBlockingTest {
+        fakeDao.insertStory(dummyStory)
+
+        `when`(storyDatabase.storyDao()).thenReturn(fakeDao)
+        `when`(storyDao.deleteAll()).thenThrow()
+
+        val actual = storyRepository.deleteData().getSecondOrAwaitValue()
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Error)
+    }
+}
+
+/// Unit Test Home VM ///
+@RunWith(MockitoJUnitRunner::class)
+class HomeViewModelTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var storyRepository: StoryRepository
+    private lateinit var homeViewModel: HomeViewModel
+
+    @Before
+    fun setUp() {
+        storyRepository = Mockito.mock(StoryRepository::class.java)
+        homeViewModel = HomeViewModel(storyRepository)
+    }
+
+    @Test
+    fun `when getStory should fetch the correct data`() {
+        val dummy = DataDummy.generateDummyStoryEntity()
+        val snapshot = PagedTestDataSources.snapshot(dummy)
+
+        var expectedEntity = StoryEntity("", "", "", "", null, "", null)
+        snapshot.map { expectedEntity = it }
+
+        val expected = MutableLiveData<PagingData<StoryEntity>>()
+        expected.value = snapshot
+
+        Mockito.`when`(storyRepository.getStories("token")).thenReturn(expected)
+
+        val data = homeViewModel.getStory("token").getOrAwaitValue()
+        var actualEntity = StoryEntity("", "", "", "", null, "", null)
+        data.map { actualEntity = it }
+
+        Mockito.verify(storyRepository).getStories("token")
+        Assert.assertNotNull(data)
+        Assert.assertEquals(expectedEntity.id, actualEntity.id)
+    }
+}
+
+/// Unit Test Login VM ///
+@RunWith(MockitoJUnitRunner::class)
+class LoginViewModelTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var storyRepository: StoryRepository
+    private lateinit var loginViewModel: LoginViewModel
+
+    @Before
+    fun setUp() {
+        storyRepository = Mockito.mock(StoryRepository::class.java)
+        loginViewModel = LoginViewModel(storyRepository)
+    }
+
+    @Test
+    fun `when login should not return null and failed`() {
+        val dummy = DataDummy.generateDummyLoginResponse().loginResult
+        val expected = MutableLiveData<Result<LoginResult>>()
+        expected.value = Result.Success(dummy)
+
+        Mockito.`when`(storyRepository.login("123@Gmail.com", "123456")).thenReturn(expected)
+        val actual = loginViewModel.login("123@Gmail.com", "123456").getOrAwaitValue()
+
+        Mockito.verify(storyRepository).login("123@Gmail.com", "123456")
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(dummy.userId, (actual as Result.Success).data.userId)
+    }
+}
+
+/// Unit Test Maps VM ///
+@RunWith(MockitoJUnitRunner::class)
+class MapsViewModelTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var storyRepository: StoryRepository
+    private lateinit var mapsViewModel: MapsViewModel
+
+    @Before
+    fun setUp() {
+        storyRepository = Mockito.mock(StoryRepository::class.java)
+        mapsViewModel = MapsViewModel(storyRepository)
+    }
+
+    @Test
+    fun `when getMapStories should not return null and empty location`() {
+        val dummy = DataDummy.generateDummyStoryEntity()
+        val result = Result.Success(dummy)
+        val expected = MutableLiveData<Result<List<StoryEntity>>>()
+        expected.value = result
+
+        Mockito.`when`(storyRepository.getMapStories("token")).thenReturn(expected)
+        val actual = mapsViewModel.getStories("token").getOrAwaitValue()
+
+        Mockito.verify(storyRepository).getMapStories("token")
+
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertNotNull((actual as Result.Success).data[0].lat)
+        Assert.assertNotNull(actual.data[0].lon)
+        Assert.assertEquals(dummy[0].id, actual.data[0].id)
+    }
+}
+
+/// Unit Test Register VM ///
+@RunWith(MockitoJUnitRunner::class)
+class RegisterViewModelTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var storyRepository: StoryRepository
+    private lateinit var registerViewModel: RegisterViewModel
+
+    @Before
+    fun setUp() {
+        storyRepository = Mockito.mock(StoryRepository::class.java)
+        registerViewModel = RegisterViewModel(storyRepository)
+    }
+
+    @Test
+    fun `when register should not return null and failed`() {
+        val dummy = DataDummy.generateDummyGeneralResponse()
+        val expected = MutableLiveData<Result<GeneralResponse>>()
+        expected.value = Result.Success(dummy)
+
+        Mockito.`when`(registerViewModel.register("Arif Faizin", "123@Gmail.com", "123456"))
+            .thenReturn(expected)
+        val actual =
+            registerViewModel.register("Arif Faizin", "123@Gmail.com", "123456").getOrAwaitValue()
+
+        Mockito.verify(storyRepository).register("Arif Faizin", "123@Gmail.com", "123456")
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(dummy.message, (actual as Result.Success).data.message)
+    }
+}
+
+/// Unit Test Upload VM ///
+@RunWith(MockitoJUnitRunner::class)
+class UploadViewModelTest {
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var storyRepository: StoryRepository
+    private lateinit var uploadViewModel: UploadViewModel
+
+    @Before
+    fun setUp() {
+        storyRepository = Mockito.mock(StoryRepository::class.java)
+        uploadViewModel = UploadViewModel(storyRepository, "token")
+    }
+
+    @Test
+    fun `when upload should not fail`() {
+        val dummy = DataDummy.generateDummyGeneralResponse()
+        val expected = MutableLiveData<Result<GeneralResponse>>()
+        expected.value = Result.Success(dummy)
+
+        val file = File.createTempFile("abc", "def").asRequestBody("image/jpeg".toMediaTypeOrNull())
+        val desc = "desc".toRequestBody("text/plain".toMediaType())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            "abcdef",
+            file
+        )
+
+        Mockito.`when`(uploadViewModel.upload(desc, imageMultipart)).thenReturn(expected)
+        val actual = uploadViewModel.upload(desc, imageMultipart).getOrAwaitValue()
+
+        Mockito.verify(storyRepository).upload("token", desc, imageMultipart)
+        Assert.assertNotNull(actual)
+        Assert.assertTrue(actual is Result.Success)
+        Assert.assertEquals(dummy.message, (actual as Result.Success).data.message)
+    }
+}

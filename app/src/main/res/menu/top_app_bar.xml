@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/location"
+        android:contentDescription="@string/content_description_location"
+        android:icon="@drawable/location_icon"
+        android:title="@string/location"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/locale"
+        android:contentDescription="@string/content_description_locale"
+        android:icon="@drawable/language_icon"
+        android:title="@string/localization"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/logout"
+        android:contentDescription="@string/content_description_logout"
+        android:icon="@drawable/logout_icon"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="navi" tools:keep="@color/navi">#2D3D4F</color>
+
+    <color name="blue_500">#1B384A</color>
+    <color name="blue_700">#001222</color>
+
+    <color name="orange_500">#FFB74D</color>
+    <color name="orange_700">#C88719</color>
+
+    <color name="red_700" tools:keep="@color/red_700">#D32F2F</color>
+</resources>

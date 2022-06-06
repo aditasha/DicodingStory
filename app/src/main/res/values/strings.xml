@@ -1,0 +1,67 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Dicoding Story</string>
+    <string name="error">Oops,\n%1s</string>
+    <string name="close_dialog">Close</string>
+
+
+    <!-- home activity -->
+    <string name="empty_recycler" tools:keep="@string/empty_recycler">No data to be shown at the moment</string>
+    <string name="welcome">"Welcome, %1s"</string>
+    <string name="author">By <b>%1s</b></string>
+    <string name="camera_fab" tools:keep="@string/camera_fab">Camera Button</string>
+
+
+    <!-- upload activity -->
+    <string name="sender_upload">Send as %1s</string>
+    <string name="caption_upload" tools:keep="@string/caption_upload">Write your caption</string>
+    <string name="upload_success">Image uploaded successfully</string>
+
+
+    <!-- detail activity -->
+    <string name="empty_caption">%1s has not entered any caption</string>
+
+
+    <!-- login/register activity -->
+    <string name="name_TextView" tools:keep="@string/name_TextView">Name</string>
+    <string name="email_TextView" tools:keep="@string/email_TextView">Email</string>
+    <string name="password_TextView" tools:keep="@string/password_TextView">Password</string>
+
+    <string name="login_Button" tools:keep="@string/login_Button">Login</string>
+    <string name="register_Button" tools:keep="@string/register_Button">Register</string>
+
+    <string name="register_success">Successfully registered</string>
+    <string name="login_success">Successfully logged in</string>
+
+    <string name="login_wrong_format">Email or password format incorrect</string>
+    <string name="register_wrong_format">Name, email or password format incorrect</string>
+
+    <string name="register_TextView" tools:keep="@string/register_TextView">Don\'t have an account?</string>
+    <string name="register_Portal" tools:keep="@string/register_Portal"><u>Register Now</u></string>
+
+    <string name="logout_success">You have logged out</string>
+
+
+    <!-- app bar title -->
+    <string name="location">Location</string>
+    <string name="localization">English</string>
+    <string name="logout">Logout</string>
+
+    <!-- content desc -->
+    <string name="content_description_location">Story map view</string>
+    <string name="content_description_locale">Change language</string>
+    <string name="content_description_logout">Logout</string>
+    <string name="content_description_imageView" tools:keep="@string/content_description_imageView">An Image</string>
+    <string name="content_description_switchCamera" tools:keep="@string/content_description_switchCamera">Camera switcher</string>
+
+    <!-- custom edit text -->
+    <string name="error_name_empty_edit_text">Name cannot be empty</string>
+    <string name="error_name_blank_edit_text">Name cannot be blank</string>
+    <string name="error_email_edit_text">Email format is not correct</string>
+    <string name="error_password_edit_text">Password is less than 6 characters</string>
+
+    <!-- loading layout -->
+    <string name="retry" tools:keep="@string/retry">Retry</string>
+
+    <!-- map activity -->
+    <string name="start_pin">You\'re here</string>
+</resources>

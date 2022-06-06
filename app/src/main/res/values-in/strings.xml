@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Dicoding Story</string>
+    <string name="error">Ups ada error,\n%1s</string>
+    <string name="close_dialog">Tutup</string>
+
+
+    <!-- home activity -->
+    <string name="empty_recycler" tools:keep="@string/empty_recycler">Tidak ada data yang dapat ditampilkan</string>
+    <string name="welcome">"Selamat datang, %1s"</string>
+    <string name="author">Oleh <b>%1s</b></string>
+    <string name="camera_fab" tools:keep="@string/camera_fab">Tombol kamera</string>
+
+
+    <!-- upload activity -->
+    <string name="sender_upload">Kirim sebagai %1s</string>
+    <string name="caption_upload" tools:keep="@string/caption_upload">Tulis yang ingin anda sampaikan</string>
+    <string name="upload_success">Gambar berhasil diunggah</string>
+
+
+    <!-- detail activity -->
+    <string name="empty_caption">%1s belum menuliskan deskripsi apapun</string>
+
+
+    <!-- login/register activity -->
+    <string name="name_TextView" tools:keep="@string/name_TextView">Nama</string>
+    <string name="email_TextView" tools:keep="@string/email_TextView">Email</string>
+    <string name="password_TextView" tools:keep="@string/password_TextView">Kata sandi</string>
+
+    <string name="login_Button" tools:keep="@string/login_Button">Masuk</string>
+    <string name="register_Button" tools:keep="@string/register_Button">Daftar</string>
+
+    <string name="register_success">Berhasil mendaftar</string>
+    <string name="login_success">Berhasil masuk</string>
+
+    <string name="login_wrong_format">Format email atau password kurang tepat</string>
+    <string name="register_wrong_format">Format nama, email atau password kurang tepat</string>
+
+    <string name="register_TextView" tools:keep="@string/register_TextView">Belum punya akun?</string>
+    <string name="register_Portal" tools:keep="@string/register_Portal"><u>Daftar sekarang</u></string>
+
+    <string name="logout_success">Kamu telah keluar</string>
+
+
+    <!-- app bar title -->
+    <string name="location">Lokasi</string>
+    <string name="localization">Indonesia</string>
+    <string name="logout">Keluar</string>
+
+    <!-- content desc -->
+    <string name="content_description_location">Tampilan story map</string>
+    <string name="content_description_locale">Ganti bahasa</string>
+    <string name="content_description_logout">Keluar</string>
+    <string name="content_description_imageView" tools:keep="@string/content_description_imageView">Sebuah gambar</string>
+    <string name="content_description_switchCamera" tools:keep="@string/content_description_switchCamera">Ganti kamera</string>
+
+    <!-- custom edit text -->
+    <string name="error_name_empty_edit_text">Nama tidak boleh kosong</string>
+    <string name="error_name_blank_edit_text">Nama tidak boleh kosong</string>
+    <string name="error_email_edit_text">Format email kurang tepat</string>
+    <string name="error_password_edit_text">Password kurang dari 6 karakter</string>
+
+    <!-- loading layout -->
+    <string name="retry" tools:keep="@string/retry">Coba lagi</string>
+
+    <!-- map activity -->
+    <string name="start_pin">Kamu disini</string>
+</resources>

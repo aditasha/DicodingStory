@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/locale"
+        android:contentDescription="@string/content_description_locale"
+        android:icon="@drawable/language_icon"
+        android:title="@string/localization"
+        app:showAsAction="ifRoom" />
+
+</menu>
