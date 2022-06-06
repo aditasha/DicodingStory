@@ -54,6 +54,7 @@ This project was created using Kotlin, utilizing RecylerView, Paging 3 and Retro
 * [Kotlin](https://kotlinlang.org/)
 * [Android Studio](https://developer.android.com/studio)
 * [RecyclerView](https://developer.android.com/jetpack/androidx/releases/recyclerview)
+* [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 * [Retrofit](https://square.github.io/retrofit/)
 * [Glide](https://github.com/bumptech/glide)
 * MVVM Architecture
