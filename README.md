@@ -25,7 +25,7 @@
   </a>
 
   <p align="center">
-    Dicoding Story is an app which features an image filled timeline with description, a map fragment to view the location of uploaded stories and upload capability to add images to the timeline
+    Dicoding Story is an app which features an image filled timeline with description, a map fragment to view the location of uploaded stories and upload capability to add images to the timeline all using Dicoding Story Api
     <br /><br />
     <a href="https://github.com/aditasha/dicoding-story/issues">Report Bug</a>
     ·
