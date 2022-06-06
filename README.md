@@ -59,7 +59,7 @@ This project was created using Kotlin, utilizing RecylerView, Paging 3 and Retro
 * MVVM Architecture
 * [Room](https://developer.android.com/jetpack/androidx/releases/room)
 * [Encrypted Shared Preferernces](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences)
-* [Shared Element]
+* Shared Element
 * [Motion Animation](https://developer.android.com/training/constraint-layout/motionlayout)
 * [Google Maps SDK](https://developers.google.com/maps/documentation/android-sdk/start)
 * [CameraX](https://developer.android.com/jetpack/androidx/releases/camera)
