@@ -3,6 +3,7 @@ package com.aditasha.myapplication.api
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -10,12 +11,12 @@ interface ApiService {
     @POST("register")
     suspend fun register(
         @Body register: Register,
-    ): GeneralResponse
+    ): Response<GeneralResponse>
 
     @POST("login")
     suspend fun login(
         @Body login: Login,
-    ): LoginResponse
+    ): Response<LoginResponse>
 
     @GET("stories")
     suspend fun stories(
@@ -24,7 +25,7 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("location") location: Int = 0
-    ): StoryResponse
+    ): Response<StoryResponse>
 
     @Multipart
     @POST("stories")
@@ -35,5 +36,5 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("lat") lat: Float? = null,
         @Part("lon") lon: Float? = null
-    ): GeneralResponse
+    ): Response<GeneralResponse>
 }

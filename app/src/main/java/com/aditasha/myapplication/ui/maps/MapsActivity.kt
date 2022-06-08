@@ -257,8 +257,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     is Result.Success -> {
                         showFailed(false, "")
                         showLoading(false)
-                        list = result.data
-                        populateView(map, result.data)
+
+                        if (result.data != null) {
+                            list = result.data
+                            populateView(map, result.data)
+                        }
                     }
                     is Result.Error -> {
                         showFailed(true, result.error)

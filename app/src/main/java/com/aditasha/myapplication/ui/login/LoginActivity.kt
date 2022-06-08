@@ -109,12 +109,15 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Success -> {
                     showLoading(false)
                     showFailed(false, "")
-                    preference = UserPreference(this@LoginActivity)
-                    preference.setCred(result.data)
-                    intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    Toast.makeText(this@LoginActivity, R.string.login_success, Toast.LENGTH_LONG)
-                        .show()
-                    startActivity(intent)
+
+                    if (result.data != null) {
+                        preference = UserPreference(this@LoginActivity)
+                        preference.setCred(result.data)
+                        intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        Toast.makeText(this@LoginActivity, R.string.login_success, Toast.LENGTH_LONG)
+                            .show()
+                        startActivity(intent)
+                    }
                 }
             }
         }

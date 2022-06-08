@@ -11,6 +11,7 @@ import com.aditasha.myapplication.database.StoryEntity
 import com.aditasha.myapplication.wrapEspressoIdlingResource
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 
 class StoryRepository(
     private val storyDatabase: StoryDatabase,
@@ -21,20 +22,18 @@ class StoryRepository(
         liveData {
             emit(Result.Loading)
             wrapEspressoIdlingResource {
-//                val credential = Register(name, email, pass)
-//                val client = apiService.register(credential)
-//                if (client.error) {
-//                    emit(Result.Error(client.message))
-//                } else {
-//                    emit(Result.Success(client))
-//                }
                 try {
                     val credential = Register(name, email, pass)
                     val client = apiService.register(credential)
-                    emit(Result.Success(client))
+                    if (client.isSuccessful) {
+                        emit(Result.Success(client.body()))
+                    } else {
+                        val jsonObj = JSONObject(client.errorBody()!!.charStream().readText())
+                        val message = jsonObj.getString("message")
+                        emit(Result.Error(message))
+                    }
                 } catch (e: Exception) {
-                    Log.d("StoryRepository", "register: ${e.message.toString()} ")
-                    emit(Result.Error(e.message.toString()))
+                    emit(Result.Error("Server timeout!"))
                 }
             }
         }
@@ -45,11 +44,16 @@ class StoryRepository(
             try {
                 val credential = Login(email, pass)
                 val client = apiService.login(credential)
-                emit(Result.Success(client.loginResult))
+                if (client.isSuccessful) {
+                    emit(Result.Success(client.body()?.loginResult))
+                } else {
+                    val jsonObj = JSONObject(client.errorBody()!!.charStream().readText())
+                    val message = jsonObj.getString("message")
+                    emit(Result.Error(message))
+                }
 
             } catch (e: Exception) {
-                Log.d("StoryRepository", "login: ${e.message.toString()} ")
-                emit(Result.Error(e.message.toString()))
+                emit(Result.Error("Server timeout!"))
             }
 
         }
@@ -72,32 +76,42 @@ class StoryRepository(
         emit(Result.Loading)
         wrapEspressoIdlingResource {
             try {
-                val storyData = apiService.stories("Bearer $token", 1, 15, 1).listStory
-                val arrayList: ArrayList<StoryEntity> = ArrayList()
-                for (story in storyData) {
-                    story.apply {
-                        arrayList.add(
-                            StoryEntity(
-                                photoUrl,
-                                createdAt,
-                                name,
-                                description,
-                                lon,
-                                id,
-                                lat
-                            )
-                        )
-                    }
-                }
-                val entity: List<StoryEntity> = arrayList
+                val storyData = apiService.stories("Bearer $token", 1, 15, 1)
 
-                storyDatabase.storyDao().deleteAll()
-                storyDatabase.storyDao().insertStory(entity)
-                val result = storyDatabase.storyDao().getMapStory()
-                emit(Result.Success(result))
+                if (storyData.isSuccessful) {
+                    val list = storyData.body()?.listStory
+                    val arrayList: ArrayList<StoryEntity> = ArrayList()
+
+                    if (list != null) {
+                        for (story in list) {
+                            story.apply {
+                                arrayList.add(
+                                    StoryEntity(
+                                        photoUrl,
+                                        createdAt,
+                                        name,
+                                        description,
+                                        lon,
+                                        id,
+                                        lat
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    val entity: List<StoryEntity> = arrayList
+                    storyDatabase.storyDao().deleteAll()
+                    storyDatabase.storyDao().insertStory(entity)
+                    val result = storyDatabase.storyDao().getMapStory()
+                    emit(Result.Success(result))
+                } else {
+                    val jsonObj = JSONObject(storyData.errorBody()!!.charStream().readText())
+                    val message = jsonObj.getString("message")
+                    emit(Result.Error(message))
+                }
             } catch (e: Exception) {
-                Log.d("StoryRepository", "getMapStories: ${e.message.toString()} ")
-                emit(Result.Error(e.message.toString()))
+                emit(Result.Error("Server timeout!"))
             }
         }
     }
@@ -113,10 +127,15 @@ class StoryRepository(
         wrapEspressoIdlingResource {
             try {
                 val client = apiService.upload("Bearer $token", desc, image, lat, lon)
-                emit(Result.Success(client))
+                if (client.isSuccessful) {
+                    emit(Result.Success(client.body()))
+                } else {
+                    val jsonObj = JSONObject(client.errorBody()!!.charStream().readText())
+                    val message = jsonObj.getString("message")
+                    emit(Result.Error(message))
+                }
             } catch (e: Exception) {
-                Log.d("StoryRepository", "upload: ${e.message.toString()} ")
-                emit(Result.Error(e.message.toString()))
+                emit(Result.Error("Server timeout!"))
             }
         }
     }

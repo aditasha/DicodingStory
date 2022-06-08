@@ -9,6 +9,7 @@ import com.aditasha.myapplication.api.ApiService
 import com.aditasha.myapplication.database.RemoteKeys
 import com.aditasha.myapplication.database.StoryDatabase
 import com.aditasha.myapplication.database.StoryEntity
+import org.json.JSONObject
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
@@ -46,40 +47,49 @@ class StoryRemoteMediator(
 
         return try {
             val responseData =
-                apiService.stories("Bearer $token", page, state.config.pageSize).listStory
-            val arrayList: ArrayList<StoryEntity> = ArrayList()
-            for (response in responseData) {
-                response.apply {
-                    arrayList.add(
-                        StoryEntity(
-                            photoUrl,
-                            createdAt,
-                            name,
-                            description,
-                            lon,
-                            id,
-                            lat
-                        )
-                    )
+                apiService.stories("Bearer $token", page, state.config.pageSize)
+            if (responseData.isSuccessful) {
+                val arrayList: ArrayList<StoryEntity> = ArrayList()
+                val list = responseData.body()?.listStory
+                if (list != null) {
+                    for (response in list) {
+                        response.apply {
+                            arrayList.add(
+                                StoryEntity(
+                                    photoUrl,
+                                    createdAt,
+                                    name,
+                                    description,
+                                    lon,
+                                    id,
+                                    lat
+                                )
+                            )
+                        }
+                    }
                 }
-            }
-            val entity: List<StoryEntity> = arrayList
-            val endOfPaginationReached = entity.isEmpty()
+                val entity: List<StoryEntity> = arrayList
+                val endOfPaginationReached = entity.isEmpty()
 
-            database.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    database.remoteKeysDao().deleteRemoteKeys()
-                    database.storyDao().deleteAll()
+                database.withTransaction {
+                    if (loadType == LoadType.REFRESH) {
+                        database.remoteKeysDao().deleteRemoteKeys()
+                        database.storyDao().deleteAll()
+                    }
+                    val prevKey = if (page == 1) null else page - 1
+                    val nextKey = if (endOfPaginationReached) null else page + 1
+                    val keys = entity.map {
+                        RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                    }
+                    database.remoteKeysDao().insertAll(keys)
+                    database.storyDao().insertStory(entity)
                 }
-                val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = entity.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
-                }
-                database.remoteKeysDao().insertAll(keys)
-                database.storyDao().insertStory(entity)
+                MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            } else {
+                val jsonObj = JSONObject(responseData.errorBody()!!.charStream().readText())
+                val message = jsonObj.getString("message")
+                MediatorResult.Error(Exception(message))
             }
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
             MediatorResult.Error(exception)
         }
