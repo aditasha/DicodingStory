@@ -68,7 +68,7 @@ This project was created using Kotlin, utilizing RecylerView, Paging 3 and Retro
 <!-- CONTACT -->
 ## Contact
 
-- Aditasha | [Twitter](https://twitter.com/aditashaa) | aditasha9@gmail.com
+- Aditasha | aditasha9@gmail.com
 
 Project Link: [https://github.com/aditasha/dicoding-story](https://github.com/aditasha/dicoding-story)
 
